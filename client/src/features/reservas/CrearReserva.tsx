@@ -1,4 +1,5 @@
 import FormularioReserva from "./FormularioReserva";
+import ResumenReserva from "./ResumenReserva";
 
 const CrearReserva = () => {
   return (
@@ -7,9 +8,7 @@ const CrearReserva = () => {
       <FormularioReserva />
 
       {/* RESUMEN */}
-      <div className="w-2/5 bg-white rounded-lg shadow-sm p-4">
-        Calendario y botón
-      </div>
+      <ResumenReserva />
     </div>
   );
 };

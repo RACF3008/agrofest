@@ -53,7 +53,7 @@ const SeleccionProductosServicios = ({
               )}
               // se envía el item presionado
               onChange={() => handleChange(item)}
-              className="w-5 h-5 accent-[#179B44]"
+              className="w-5 h-5 accent-secondary cursor-pointer"
             />
 
             <span>{item.nombre}</span>
