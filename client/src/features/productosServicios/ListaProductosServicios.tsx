@@ -1,5 +1,4 @@
-import { useState } from "react";
-import SeleccionProductosServicios from "./SeleccionProductosServicios";
+import SeleccionProductosServicios from './SeleccionProductosServicios';
 
 interface ProductoServicio {
   id: number;
@@ -30,7 +29,7 @@ const ListaProductosServicios = ({
     <div className="flex flex-col px-4 py-2 border border-gray-200 rounded-md">
       {/* ENCABEZADO */}
       <div className="flex items-center mb-2">
-        <Icon className="text-secondary mr-4" sx={{ fontSize: "2rem" }} />
+        <Icon className="text-secondary mr-4" sx={{ fontSize: '2rem' }} />
         <div>
           <h3 className="text-xl font-bold">{title}</h3>
           <p className="text-md font-semibold text-gray-300">{subtitle}</p>

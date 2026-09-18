@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agrofest-server-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agrofest-server-mongo
+  template:
+    metadata:
+      labels:
+        app: agrofest-server-mongo
+    spec:
+      containers:
+        - name: agrofest-server-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agrofest-server-mongo-srv
+spec:
+  selector:
+    app: agrofest-server-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

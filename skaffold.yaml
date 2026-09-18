@@ -1,0 +1,27 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: racf3008/agrofest-server
+      context: agrofest-server
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: racf3008/agrofest-client
+      context: agrofest-client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.tsx'
+            dest: .
+          - src: 'src/**/*.js'
+            dest: .

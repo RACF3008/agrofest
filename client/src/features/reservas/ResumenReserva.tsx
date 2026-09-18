@@ -1,9 +1,9 @@
-import { LocalOffer } from "@mui/icons-material";
-import BallotIcon from "@mui/icons-material/Ballot";
-import BuildIcon from "@mui/icons-material/Build";
-import Oferta from "../productosServicios/Oferta";
-import Button from "../../ui/Button";
-import { formatCurrency } from "../../services/currency";
+import { LocalOffer } from '@mui/icons-material';
+import BallotIcon from '@mui/icons-material/Ballot';
+import BuildIcon from '@mui/icons-material/Build';
+import Oferta from '../productosServicios/Oferta';
+import Button from '../../ui/Button';
+import { formatCurrency } from '../../services/currency';
 
 interface ResumenReservaProps {
   totalProductos: number;
@@ -28,7 +28,7 @@ const ResumenReserva = ({
     <div className="w-2/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
       {/* ENCABEZADO */}
       <div className="flex items-center gap-2 mb-1">
-        <BallotIcon className="text-secondary" sx={{ fontSize: "2rem" }} />
+        <BallotIcon className="text-secondary" sx={{ fontSize: '2rem' }} />
         <h2 className="text-xl font-bold">Resumen de Reserva</h2>
       </div>
 
@@ -50,7 +50,7 @@ const ResumenReserva = ({
           <div className="flex items-center gap-2">
             <LocalOffer
               className="text-secondary"
-              sx={{ fontSize: "1.5rem" }}
+              sx={{ fontSize: '1.5rem' }}
             />
 
             <div className="flex flex-col">
@@ -82,7 +82,7 @@ const ResumenReserva = ({
         {/* SUBTOTAL DE SERVICIOS */}
         <div className="flex justify-between mb-2">
           <div className="flex items-center gap-2">
-            <BuildIcon className="text-secondary" sx={{ fontSize: "1.5rem" }} />
+            <BuildIcon className="text-secondary" sx={{ fontSize: '1.5rem' }} />
 
             <div className="flex flex-col">
               <p className="font-semibold text-md">Servicios</p>

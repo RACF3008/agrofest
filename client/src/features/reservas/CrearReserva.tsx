@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from 'react';
 
-import type { ProductoServicio } from "../../types/ProductoServicio";
+import type { ProductoServicio } from '../../types/ProductoServicio';
 
-import FormularioReserva from "./FormularioReserva";
-import ResumenReserva from "./ResumenReserva";
+import FormularioReserva from './FormularioReserva';
+import ResumenReserva from './ResumenReserva';
 import {
   calcPrecioFinalServicios,
   calcPrecioFinalProductos,
-} from "../../services/calcDescuentos";
+} from '../../services/calcDescuentos';
 
 const dataProductos = [
-  { id: 1, nombre: "Producto 1", precio: 100 },
-  { id: 2, nombre: "Producto 2", precio: 200 },
-  { id: 3, nombre: "Producto 3", precio: 300 },
-  { id: 4, nombre: "Producto 4", precio: 400 },
-  { id: 5, nombre: "Producto 5", precio: 500 },
+  { id: 1, nombre: 'Producto 1', precio: 100 },
+  { id: 2, nombre: 'Producto 2', precio: 200 },
+  { id: 3, nombre: 'Producto 3', precio: 300 },
+  { id: 4, nombre: 'Producto 4', precio: 400 },
+  { id: 5, nombre: 'Producto 5', precio: 500 },
 ];
 
 const dataServicios = [
-  { id: 1, nombre: "Servicio 1", precio: 150 },
-  { id: 2, nombre: "Servicio 2", precio: 250 },
-  { id: 3, nombre: "Servicio 3", precio: 350 },
+  { id: 1, nombre: 'Servicio 1', precio: 150 },
+  { id: 2, nombre: 'Servicio 2', precio: 250 },
+  { id: 3, nombre: 'Servicio 3', precio: 350 },
 ];
 
-const dataCalendario = ["01/01/2026", "02/01/2026", "03/01/2026", "04/01/2026"];
-const dataHorarios = ["10:00 AM", "11:00 AM", "12:00 PM", "13:00 PM"];
+const dataCalendario = ['01/01/2026', '02/01/2026', '03/01/2026', '04/01/2026'];
+const dataHorarios = ['10:00 AM', '11:00 AM', '12:00 PM', '13:00 PM'];
 
 const CrearReserva = () => {
   const [fecha, setFecha] = useState(dataCalendario[0]);
@@ -33,28 +33,17 @@ const CrearReserva = () => {
   const [productos, setProductos] = useState<ProductoServicio[]>([]);
   const [servicios, setServicios] = useState<ProductoServicio[]>([]);
 
-  const [totalProductos, setTotalProductos] = useState(0);
-  const [descuentoProductos, setDescuentoProductos] = useState(0);
-  const [totalServicios, setTotalServicios] = useState(0);
-  const [descuentoServicios, setDescuentoServicios] = useState(0);
+  const [totalProductos, descuentoProductos] = useMemo(
+    () => calcPrecioFinalProductos(productos),
+    [productos],
+  );
 
-  const [total, setTotal] = useState(0);
+  const [totalServicios, descuentoServicios] = useMemo(
+    () => calcPrecioFinalServicios(servicios),
+    [servicios],
+  );
 
-  useEffect(() => {
-    const [totalProductos, descuentoProductos] =
-      calcPrecioFinalProductos(productos);
-
-    setTotalProductos(totalProductos);
-    setDescuentoProductos(descuentoProductos);
-
-    const [totalServicios, descuentoServicios] =
-      calcPrecioFinalServicios(servicios);
-
-    setTotalServicios(totalServicios);
-    setDescuentoServicios(descuentoServicios);
-
-    setTotal(totalProductos + totalServicios);
-  }, [productos, servicios]);
+  const total = totalProductos + totalServicios;
 
   return (
     <div className="flex gap-8 px-8 py-4 ">
@@ -76,6 +65,8 @@ const CrearReserva = () => {
 
       {/* RESUMEN */}
       <ResumenReserva
+        cantProductos={productos.length}
+        cantServicios={servicios.length}
         totalProductos={totalProductos}
         descuentoProductos={descuentoProductos}
         totalServicios={totalServicios}

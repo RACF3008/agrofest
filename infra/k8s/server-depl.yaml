@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agrofest-server-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agrofest-server
+  template:
+    metadata:
+      labels:
+        app: agrofest-server
+    spec:
+      containers:
+        - name: agrofest-server
+          image: racf3008/agrofest-server
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              value: 'mongodb://agrofest-server-mongo-srv:27017/server'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agrofest-server-srv
+spec:
+  selector:
+    app: agrofest-server
+  type: ClusterIP
+  ports:
+    - name: agrofest-server
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

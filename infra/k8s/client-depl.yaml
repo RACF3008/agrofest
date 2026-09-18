@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agrofest-client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agrofest-client
+  template:
+    metadata:
+      labels:
+        app: agrofest-client
+    spec:
+      containers:
+        - name: client
+          image: racf3008/agrofest-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agrofest-client-srv
+spec:
+  selector:
+    app: agrofest-client
+  ports:
+    - name: agrofest-client
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
