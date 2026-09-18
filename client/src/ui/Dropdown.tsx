@@ -31,7 +31,7 @@ const Dropdown = ({ Icon, label, data, value, onChange }: DropdownProps) => {
         onChange={(e) => onChange(e.target.value)}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
       >
-        {data.map((item) => (
+        {(data ?? []).map((item) => (
           <option key={item} value={item}>
             {item}
           </option>

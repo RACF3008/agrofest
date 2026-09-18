@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import BuildIcon from "@mui/icons-material/Build";
@@ -6,28 +5,40 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import Dropdown from "../../ui/Dropdown";
 import ListaProductosServicios from "../productosServicios/ListaProductosServicios";
+import type { ProductoServicio } from "../../types/ProductoServicio";
 
-const calendario = ["01/01/2026", "02/01/2026", "03/01/2026", "04/01/2026"];
-const horarios = ["10:00 AM", "11:00 AM", "12:00 PM", "13:00 PM"];
+interface FormularioReservaProps {
+  dataProductos: ProductoServicio[];
+  dataServicios: ProductoServicio[];
+  dataHorarios: string[];
+  dataCalendario: string[];
 
-const productos = [
-  { id: 1, nombre: "Producto 1", precio: 100 },
-  { id: 2, nombre: "Producto 2", precio: 200 },
-  { id: 3, nombre: "Producto 3", precio: 300 },
-  { id: 4, nombre: "Producto 4", precio: 400 },
-  { id: 5, nombre: "Producto 5", precio: 500 },
-];
+  fecha: string;
+  setFecha: React.Dispatch<React.SetStateAction<string>>;
 
-const servicios = [
-  { id: 1, nombre: "Servicio 1", precio: 150 },
-  { id: 2, nombre: "Servicio 2", precio: 250 },
-  { id: 3, nombre: "Servicio 3", precio: 350 },
-];
+  hora: string;
+  setHora: React.Dispatch<React.SetStateAction<string>>;
 
-const FormularioReserva = () => {
-  const [fecha, setFecha] = useState("01/01/2026");
-  const [hora, setHora] = useState("10:00 AM");
+  productos: ProductoServicio[];
+  setProductos: React.Dispatch<React.SetStateAction<ProductoServicio[]>>;
+  servicios: ProductoServicio[];
+  setServicios: React.Dispatch<React.SetStateAction<ProductoServicio[]>>;
+}
 
+const FormularioReserva = ({
+  dataHorarios,
+  dataCalendario,
+  dataProductos,
+  dataServicios,
+  fecha,
+  setFecha,
+  hora,
+  setHora,
+  productos,
+  setProductos,
+  servicios,
+  setServicios,
+}: FormularioReservaProps) => {
   return (
     <div className="w-3/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
       {/* TÍTULO Y SUBTÍTULO */}
@@ -51,7 +62,7 @@ const FormularioReserva = () => {
         <Dropdown
           Icon={CalendarMonthIcon}
           label="Fecha"
-          data={calendario}
+          data={dataCalendario}
           value={fecha}
           onChange={setFecha}
         />
@@ -60,7 +71,7 @@ const FormularioReserva = () => {
         <Dropdown
           Icon={AccessTimeIcon}
           label="Hora"
-          data={horarios}
+          data={dataHorarios}
           value={hora}
           onChange={setHora}
         />
@@ -73,7 +84,9 @@ const FormularioReserva = () => {
           Icon={LocalOfferIcon}
           title="Productos"
           subtitle="Seleccione los productos que desea incluir"
-          data={productos}
+          data={dataProductos}
+          itemsSeleccionados={productos}
+          setItemsSeleccionados={setProductos}
         />
 
         {/* SERVICIOS */}
@@ -81,7 +94,9 @@ const FormularioReserva = () => {
           Icon={BuildIcon}
           title="Servicios"
           subtitle="Seleccione los servicios que desea incluir"
-          data={servicios}
+          data={dataServicios}
+          itemsSeleccionados={servicios}
+          setItemsSeleccionados={setServicios}
         />
       </div>
     </div>

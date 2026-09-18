@@ -12,6 +12,10 @@ interface ListaProductosServiciosProps {
   title: string;
   subtitle: string;
   data: ProductoServicio[];
+  itemsSeleccionados: ProductoServicio[];
+  setItemsSeleccionados: React.Dispatch<
+    React.SetStateAction<ProductoServicio[]>
+  >;
 }
 
 const ListaProductosServicios = ({
@@ -19,10 +23,9 @@ const ListaProductosServicios = ({
   title,
   subtitle,
   data,
+  itemsSeleccionados,
+  setItemsSeleccionados,
 }: ListaProductosServiciosProps) => {
-  const [itemsSeleccionados, setItemsSeleccionados] = useState<
-    ProductoServicio[]
-  >([]);
   return (
     <div className="flex flex-col px-4 py-2 border border-gray-200 rounded-md">
       {/* ENCABEZADO */}

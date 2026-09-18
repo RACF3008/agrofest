@@ -2,8 +2,28 @@ import { LocalOffer } from "@mui/icons-material";
 import BallotIcon from "@mui/icons-material/Ballot";
 import BuildIcon from "@mui/icons-material/Build";
 import Oferta from "../productosServicios/Oferta";
+import Button from "../../ui/Button";
+import { formatCurrency } from "../../services/currency";
 
-const ResumenReserva = () => {
+interface ResumenReservaProps {
+  totalProductos: number;
+  totalServicios: number;
+  descuentoProductos: number;
+  descuentoServicios: number;
+  cantProductos: number;
+  cantServicios: number;
+  total: number;
+}
+
+const ResumenReserva = ({
+  totalProductos,
+  totalServicios,
+  descuentoProductos,
+  descuentoServicios,
+  cantProductos,
+  cantServicios,
+  total,
+}: ResumenReservaProps) => {
   return (
     <div className="w-2/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
       {/* ENCABEZADO */}
@@ -36,15 +56,26 @@ const ResumenReserva = () => {
             <div className="flex flex-col">
               <p className="font-semibold text-md">Servicios</p>
               <p className="font-semibold text-md text-gray-300">
-                0 seleccionado(s)
+                {cantProductos} seleccionado(s)
               </p>
             </div>
           </div>
 
           {/* PRECIO Y DESCUENTO*/}
-          <div>
-            <p className="font-md text-md line-through">Q100.00</p>
-            <p className="font-semibold text-lg">Q50.00</p>
+          <div className="flex flex-col items-end">
+            {descuentoProductos > 0 && (
+              <div className="flex gap-2">
+                <p className="bg-secondary text-white rounded-md px-2">
+                  -{descuentoProductos * 100}%
+                </p>
+                <p className="font-md text-md line-through">
+                  {formatCurrency(totalProductos / (1 - descuentoProductos))}
+                </p>
+              </div>
+            )}
+            <p className="font-semibold text-xl">
+              {formatCurrency(totalProductos)}
+            </p>
           </div>
         </div>
 
@@ -56,15 +87,26 @@ const ResumenReserva = () => {
             <div className="flex flex-col">
               <p className="font-semibold text-md">Servicios</p>
               <p className="font-semibold text-md text-gray-300">
-                0 seleccionado(s)
+                {cantServicios} seleccionado(s)
               </p>
             </div>
           </div>
 
           {/* PRECIO Y DESCUENTO*/}
-          <div>
-            <p className="font-md text-md line-through">Q100.00</p>
-            <p className="font-semibold text-lg">Q50.00</p>
+          <div className="flex flex-col items-end">
+            {descuentoServicios > 0 && (
+              <div className="flex gap-2">
+                <p className="bg-secondary text-white rounded-md px-2">
+                  -{descuentoServicios * 100}%
+                </p>
+                <p className="font-md text-md line-through">
+                  {formatCurrency(totalServicios / (1 - descuentoServicios))}
+                </p>
+              </div>
+            )}
+            <p className="font-semibold text-xl">
+              {formatCurrency(totalServicios)}
+            </p>
           </div>
         </div>
 
@@ -74,11 +116,19 @@ const ResumenReserva = () => {
         {/* TOTAL */}
         <div className="flex justify-between mb-4">
           <p className="font-semibold text-lg">Total</p>
-          <p className="font-bold text-3xl text-secondary">Q100.00</p>
+          <p className="font-bold text-3xl text-secondary">
+            {formatCurrency(total)}
+          </p>
         </div>
 
         {/* CONDICIONES DE OFERTA */}
         <Oferta />
+
+        {/* BOTON DE RESERVAR */}
+        <Button
+          text="Reservar"
+          className="bg-secondary text-white w-full mt-5"
+        />
       </div>
     </div>
   );
