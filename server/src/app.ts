@@ -2,6 +2,9 @@ import express from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 
+import { obtenerProductosServiciosRouter } from "./routes/obtener-productos-servicios";
+import { crearReservaRouter } from "./routes/crear-reserva";
+
 // Importación de rutas
 
 const app = express();
@@ -17,5 +20,7 @@ app.use(
 );
 
 // Conectar las rutas
+app.use(obtenerProductosServiciosRouter);
+app.use(crearReservaRouter);
 
 export { app };

@@ -8,20 +8,20 @@ build:
     push: false
   artifacts:
     - image: racf3008/agrofest-server
-      context: agrofest-server
+      context: server
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.ts'
+          - src: "src/**/*.ts"
             dest: .
     - image: racf3008/agrofest-client
-      context: agrofest-client
+      context: client
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.tsx'
+          - src: "src/**/*.tsx"
             dest: .
-          - src: 'src/**/*.js'
+          - src: "src/**/*.js"
             dest: .

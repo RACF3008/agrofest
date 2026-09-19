@@ -21,8 +21,6 @@ const DetalleFinanciero = ({
   const [totalServicios, descuentoServicios] =
     calcPrecioFinalServicios(servicios);
 
-  const total = totalProductos + totalServicios;
-
   return (
     <div className="flex flex-col w-full shadow-sm rounded-md px-6 py-4 bg-secondary-pale">
       {/* ENCABEZADO */}
