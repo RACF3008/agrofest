@@ -54,7 +54,7 @@ const ResumenReserva = ({
             />
 
             <div className="flex flex-col">
-              <p className="font-semibold text-md">Servicios</p>
+              <p className="font-semibold text-md">Productos</p>
               <p className="font-semibold text-md text-gray-300">
                 {cantProductos} seleccionado(s)
               </p>

@@ -1,21 +1,25 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import BuildIcon from '@mui/icons-material/Build';
 
-const DetalleProductosServicios = () => {
+interface DetalleProductosServiciosProps {
+  title: 'Productos' | 'Servicios';
+}
+
+const DetalleProductosServicios = ({
+  title,
+}: DetalleProductosServiciosProps) => {
   return (
-    <div>
-      {/* TÍTULO Y SUBTÍTULO */}
-      <div className="flex items-center mb-4">
-        <CalendarMonthIcon
-          className="text-secondary mr-4"
-          sx={{ fontSize: '3rem' }}
-        />
-        <div>
-          <h2 className="text-2xl font-bold">Nueva Reserva</h2>
-          <p className="text-md font-semibold text-gray-300">
-            Selecciona los productos y servicios que deseas incluir en tu
-            asistencia
-          </p>
-        </div>
+    <div className="flex flex-col">
+      <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
+        {title === 'Productos' ? (
+          <LocalOfferIcon
+            className="text-secondary"
+            sx={{ fontSize: '1.5rem' }}
+          />
+        ) : (
+          <BuildIcon className="text-secondary" sx={{ fontSize: '1.5rem' }} />
+        )}
+        <h4 className="font-bold text-lg">{title} seleccionados</h4>
       </div>
     </div>
   );
