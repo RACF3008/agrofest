@@ -14,13 +14,20 @@ router.post(
   [
     body("fecha").not().isEmpty().withMessage("El campo fecha es requerido"),
     body("productosIds")
-      .not()
-      .isEmpty()
+      .isArray()
       .withMessage("El campo intereses es requerido"),
     body("serviciosIds")
-      .not()
-      .isEmpty()
+      .isArray()
       .withMessage("El campo intereses es requerido"),
+
+    // Se revisa que haya al menos un servicio o producto
+    body().custom(({ productosIds, serviciosIds }) => {
+      if (productosIds.length === 0 && serviciosIds.length === 0) {
+        throw new Error("Debe seleccionar al menos un producto o un servicio");
+      }
+
+      return true;
+    }),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -35,6 +42,8 @@ router.post(
         .status(400)
         .send({ errors: [{ message: "Reserva existente" }] });
     }
+
+    console.log(productosIds, serviciosIds);
 
     const reserva = Reserva.build({
       evento: "AgroFest",

@@ -36,11 +36,11 @@ const reservaEsquema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    productosId: {
+    productosIds: {
       type: [String],
       required: true,
     },
-    serviciosId: {
+    serviciosIds: {
       type: [String],
       required: true,
     },

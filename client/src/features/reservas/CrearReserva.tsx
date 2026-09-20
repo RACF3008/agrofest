@@ -79,11 +79,15 @@ const CrearReserva = () => {
   }, []);
 
   const handleCrearReserva = async () => {
-    await doCrearReserva({
+    const reservaBody = {
       fecha: `${fecha} ${hora}`,
       productosIds: [...productos.map((producto) => producto.id)],
       serviciosIds: [...servicios.map((servicio) => servicio.id)],
-    });
+    };
+
+    console.log(reservaBody);
+
+    await doCrearReserva(reservaBody);
   };
 
   return (

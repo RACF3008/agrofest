@@ -1,3 +1,5 @@
+import { ProductoServicio } from "../types/ProductoServicio";
+
 export const usuario = {
   id: "1234",
   nombre: "Rodrigo",
@@ -6,7 +8,7 @@ export const usuario = {
   correo: "rcruz@test.com",
 };
 
-export const productos = [
+export const productos: ProductoServicio[] = [
   { id: "K7m2Qx", nombre: "Urea", precio: 325 },
   { id: "p4Z8nL", nombre: "Fertilizante 15-15-15", precio: 450 },
   { id: "X9rT3a", nombre: "Fertilizante 20-20-0", precio: 475 },
