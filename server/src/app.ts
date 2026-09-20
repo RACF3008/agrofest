@@ -4,7 +4,8 @@ import cookieSession from "cookie-session";
 
 import { obtenerProductosServiciosRouter } from "./routes/obtener-productos-servicios";
 import { crearReservaRouter } from "./routes/crear-reserva";
-import { obtenerReservasRouter } from "./routes/obtener-reserva";
+import { obtenerReservasRouter } from "./routes/obtener-reservas";
+import { obtenerReservaRouter } from "./routes/obtener-reserva";
 import { obtenerHorariosRouter } from "./routes/obtener-horarios";
 import { borrarReservaRouter } from "./routes/borrar-reserva";
 
@@ -27,6 +28,7 @@ app.use(obtenerProductosServiciosRouter);
 app.use(obtenerHorariosRouter);
 app.use(crearReservaRouter);
 app.use(obtenerReservasRouter);
+app.use(obtenerReservaRouter);
 app.use(borrarReservaRouter);
 
 export { app };

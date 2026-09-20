@@ -5,24 +5,38 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DetalleProductosServicios from "../productosServicios/DetalleProductosServicios";
 import DetalleFinanciero from "../productosServicios/DetalleFinanciero";
 import Button from "../../ui/Button";
-
-const dataProductos = [
-  { id: 1, nombre: "Producto 1", precio: 100 },
-  { id: 2, nombre: "Producto 2", precio: 200 },
-  { id: 3, nombre: "Producto 3", precio: 300 },
-  { id: 4, nombre: "Producto 4", precio: 400 },
-  { id: 5, nombre: "Producto 5", precio: 500 },
-];
-
-const dataServicios = [
-  { id: 1, nombre: "Servicio 1", precio: 150 },
-  { id: 2, nombre: "Servicio 2", precio: 250 },
-  { id: 3, nombre: "Servicio 3", precio: 350 },
-];
+import { useEffect, useState } from "react";
+import useRequest from "../../hooks/use-request";
+import { useParams } from "react-router-dom";
 
 const DetallesReserva = () => {
+  const { id } = useParams();
+
+  const [reserva, setReserva] = useState({
+    evento: "",
+    fecha: "",
+    usuarioId: "",
+    productosIds: [],
+    serviciosIds: [],
+    productos: [],
+    servicios: [],
+  });
+
+  const { doRequest: doObtenerReserva } = useRequest({
+    url: `/api/reservas/${id}`,
+    method: "get",
+    onSuccess: (data) => {
+      console.log(data);
+      setReserva(data);
+    },
+  });
+
+  useEffect(() => {
+    doObtenerReserva();
+  }, []);
+
   return (
-    <div className="m-4 w-4/5 flex self-center flex-col bg-white rounded-lg shadow-sm p-4">
+    <div className="m-4 w-full flex self-center flex-col bg-white rounded-lg shadow-sm p-4">
       {/* TÍTULO Y SUBTÍTULO */}
       <div className="flex items-center mb-4">
         <CalendarMonthIcon
@@ -52,7 +66,7 @@ const DetallesReserva = () => {
 
             <div className="flex flex-col pl-2">
               <p className="font-semibold text-md text-gray-400">Evento</p>
-              <h4 className="font-bold text-xl">Evento 1</h4>
+              <h4 className="font-bold text-xl">{reserva.evento}</h4>
             </div>
           </div>
 
@@ -65,7 +79,9 @@ const DetallesReserva = () => {
 
             <div className="flex flex-col pl-2">
               <p className="font-semibold text-md text-gray-400">Fecha</p>
-              <h4 className="font-bold text-xl">01/01/2026</h4>
+              <h4 className="font-bold text-xl">
+                {new Date(reserva.fecha).toLocaleDateString("es-GT")}
+              </h4>
             </div>
           </div>
 
@@ -78,7 +94,12 @@ const DetallesReserva = () => {
 
             <div className="flex flex-col pl-2">
               <p className="font-semibold text-md text-gray-400">Hora</p>
-              <h4 className="font-bold text-xl">10:00 AM</h4>
+              <h4 className="font-bold text-xl">
+                {reserva.fecha.split("T")[1]?.slice(0, 5)}{" "}
+                {Number(reserva.fecha.split("T")[1]?.slice(0, 2)) >= 12
+                  ? "pm"
+                  : "am"}
+              </h4>
             </div>
           </div>
         </div>
@@ -89,26 +110,26 @@ const DetallesReserva = () => {
         <div className="grid grid-cols-2 gap-4 w-2/3">
           <DetalleProductosServicios
             title="Productos"
-            productosServicios={dataProductos}
+            productosServicios={reserva.productos}
           />
 
           <DetalleProductosServicios
             title="Servicios"
-            productosServicios={dataServicios}
+            productosServicios={reserva.servicios}
           />
         </div>
 
         <div className="flex flex-col w-1/3 gap-4">
           {/* Detalle financiero */}
           <DetalleFinanciero
-            productos={dataProductos}
-            servicios={dataServicios}
+            productos={reserva.productos}
+            servicios={reserva.servicios}
           />
 
           {/* BOTON CANCELAR */}
           <Button
             text="Cancelar Reserva"
-            className="border-2 border-danger hover:bg-danger"
+            className="border-2 border-danger hover:text-white hover:bg-danger"
           />
         </div>
       </div>

@@ -43,8 +43,6 @@ router.post(
         .send({ errors: [{ message: "Reserva existente" }] });
     }
 
-    console.log(productosIds, serviciosIds);
-
     const reserva = Reserva.build({
       evento: "AgroFest",
       fecha,

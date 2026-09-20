@@ -82,7 +82,7 @@ const DetalleFinanciero = ({
           Total reservación:
         </h4>
         <h4 className="font-bold text-2xl text-right text-secondary">
-          {totalProductos + totalServicios}
+          {formatCurrency(totalProductos + totalServicios)}
         </h4>
       </div>
     </div>
