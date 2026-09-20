@@ -10,11 +10,24 @@ import {
 } from "../../services/calcDescuentos";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../services/currency";
+import useRequest from "../../hooks/use-request";
+import { useNavigate } from "react-router-dom";
 
-const TarjetaReserva = ({ reserva }: any) => {
+const TarjetaReserva = ({ reserva, onCancel }: any) => {
+  const navigate = useNavigate();
   const [precioOriginal, setPrecioOriginal] = useState(0);
   const [precioFinal, setPrecioFinal] = useState(0);
 
+  const { doRequest: doCancelarReserva } = useRequest({
+    url: `/api/reservas/${reserva._id}`,
+    method: "delete",
+
+    onSuccess: () => {
+      onCancel();
+    },
+  });
+
+  // Calcular precio original y final
   useEffect(() => {
     console.log(reserva);
     // Se obtiene el descuento y precio final productos
@@ -102,8 +115,13 @@ const TarjetaReserva = ({ reserva }: any) => {
         <Button
           className="border-2 border-danger text-danger hover:bg-danger hover:text-white"
           text="Cancelar"
+          onClick={() => doCancelarReserva()}
         />
-        <Button className="bg-secondary text-white" text="Ver detalles" />
+        <Button
+          className="bg-secondary text-white"
+          text="Ver detalles"
+          onClick={() => navigate(`/reservas/${reserva._id}`)}
+        />
       </div>
     </div>
   );

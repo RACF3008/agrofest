@@ -18,7 +18,6 @@ const Reservas = () => {
     method: "get",
     onSuccess: (data: any) => {
       setReservas(data);
-      console.log(reservas);
     },
   });
 
@@ -29,10 +28,16 @@ const Reservas = () => {
   return (
     <div className="relative flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
       {reservas.length === 0 ? (
-        <p className="text-center text-2xl font-bold">No tienes reservas</p>
+        <p className="absolute text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-semibold text-gray-300">
+          No tienes reservas
+        </p>
       ) : (
         reservas.map((reserva: any) => (
-          <TarjetaReserva key={reserva.id} reserva={reserva} />
+          <TarjetaReserva
+            key={reserva.id}
+            reserva={reserva}
+            onCancel={doConsultaReservas}
+          />
         ))
       )}
 

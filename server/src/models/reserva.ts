@@ -34,7 +34,7 @@ const reservaEsquema = new mongoose.Schema(
     },
     usuarioId: {
       type: String,
-      required: true,
+      required: false,
     },
     productosIds: {
       type: [String],

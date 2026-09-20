@@ -9,14 +9,6 @@ const router = express.Router();
 router.get("/api/reservas", async (req: Request, res: Response) => {
   const reservas = await Reserva.find({ usuarioId: usuario.id });
 
-  if (reservas.length === 0) {
-    return res
-      .status(404)
-      .send({ errors: [{ message: "Reservas no encontradas" }] });
-  }
-
-  console.log(reservas);
-
   let productosReserva: ProductoServicio[] = [];
   let serviciosReserva: ProductoServicio[] = [];
 
