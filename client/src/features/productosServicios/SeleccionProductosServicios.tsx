@@ -36,7 +36,7 @@ const SeleccionProductosServicios = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 overflow-y-auto">
       {items.map((item) => (
         // CONTENEDOR INDIVIDUAL
         <label

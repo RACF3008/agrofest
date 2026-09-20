@@ -4,9 +4,10 @@ import { ProductoServicio } from "../types/ProductoServicio";
 
 interface ReservaAttrs {
   evento: string;
-  fecha: string;
+  fecha: Date;
   usuarioId: string;
-  interesesId: string[];
+  productosIds: string[];
+  serviciosIds: string[];
 }
 
 interface ReservaModel extends mongoose.Model<ReservaDoc> {
@@ -15,9 +16,10 @@ interface ReservaModel extends mongoose.Model<ReservaDoc> {
 
 interface ReservaDoc extends mongoose.Document {
   evento: string;
-  fecha: string;
+  fecha: Date;
   usuarioId: string;
-  interesesId: string[];
+  productosIds: string[];
+  serviciosIds: string[];
 }
 
 const reservaEsquema = new mongoose.Schema(
@@ -27,14 +29,18 @@ const reservaEsquema = new mongoose.Schema(
       required: true,
     },
     fecha: {
-      type: String,
+      type: Date,
       required: true,
     },
     usuarioId: {
       type: String,
       required: true,
     },
-    interesesId: {
+    productosId: {
+      type: [String],
+      required: true,
+    },
+    serviciosId: {
       type: [String],
       required: true,
     },

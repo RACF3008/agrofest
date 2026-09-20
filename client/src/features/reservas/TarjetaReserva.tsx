@@ -5,7 +5,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import Button from "../../ui/Button";
 
-const TarjetaReserva = () => {
+const TarjetaReserva = ({ reserva }: any) => {
   return (
     <div className="bg-white p-4 border border-gray-300 rounded-md shadow-sm">
       {/* TITULO DEL EVENTO */}

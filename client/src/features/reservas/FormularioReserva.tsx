@@ -11,7 +11,7 @@ interface FormularioReservaProps {
   dataProductos: ProductoServicio[];
   dataServicios: ProductoServicio[];
   dataHorarios: string[];
-  dataCalendario: string[];
+  dataFechas: string[];
 
   fecha: string;
   setFecha: React.Dispatch<React.SetStateAction<string>>;
@@ -27,7 +27,7 @@ interface FormularioReservaProps {
 
 const FormularioReserva = ({
   dataHorarios,
-  dataCalendario,
+  dataFechas,
   dataProductos,
   dataServicios,
   fecha,
@@ -40,7 +40,7 @@ const FormularioReserva = ({
   setServicios,
 }: FormularioReservaProps) => {
   return (
-    <div className="w-3/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
+    <div className="w-full xl:w-3/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
       {/* TÍTULO Y SUBTÍTULO */}
       <div className="flex items-center mb-4">
         <CalendarMonthIcon
@@ -57,12 +57,12 @@ const FormularioReserva = ({
       </div>
 
       {/* SELECCION DE FECHA Y HORA */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2">
         {/* FECHA */}
         <Dropdown
           Icon={CalendarMonthIcon}
           label="Fecha"
-          data={dataCalendario}
+          data={dataFechas}
           value={fecha}
           onChange={setFecha}
         />
@@ -78,7 +78,7 @@ const FormularioReserva = ({
       </div>
 
       {/* SELECCION DE PRODUCTOS Y SERVICIOS */}
-      <div className="grid grid-cols-2 gap-2 mt-4">
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-2 mt-4">
         {/* PRODUCTOS */}
         <ListaProductosServicios
           Icon={LocalOfferIcon}

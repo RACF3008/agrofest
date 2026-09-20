@@ -13,15 +13,18 @@ router.post(
   "/api/reservas",
   [
     body("fecha").not().isEmpty().withMessage("El campo fecha es requerido"),
-    body("interesesId")
+    body("productosIds")
+      .not()
+      .isEmpty()
+      .withMessage("El campo intereses es requerido"),
+    body("serviciosIds")
       .not()
       .isEmpty()
       .withMessage("El campo intereses es requerido"),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    console.log("hola");
-    const { fecha, interesesId } = req.body;
+    const { fecha, productosIds, serviciosIds } = req.body;
 
     const reservaExistente = await Reserva.findOne({
       fecha,
@@ -37,7 +40,8 @@ router.post(
       evento: "AgroFest",
       fecha,
       usuarioId: usuario.id,
-      interesesId,
+      productosIds,
+      serviciosIds,
     });
     await reserva.save();
 

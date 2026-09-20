@@ -13,6 +13,7 @@ interface ResumenReservaProps {
   cantProductos: number;
   cantServicios: number;
   total: number;
+  onSubmit: () => void;
 }
 
 const ResumenReserva = ({
@@ -23,9 +24,10 @@ const ResumenReserva = ({
   cantProductos,
   cantServicios,
   total,
+  onSubmit,
 }: ResumenReservaProps) => {
   return (
-    <div className="w-2/5 flex flex-col bg-white rounded-lg shadow-sm p-4">
+    <div className="w-full xl:w-2/5 flex flex-col bg-white rounded-lg shadow-sm p-4 h-fit">
       {/* ENCABEZADO */}
       <div className="flex items-center gap-2 mb-4">
         <BallotIcon className="text-secondary" sx={{ fontSize: "2rem" }} />
@@ -128,6 +130,7 @@ const ResumenReserva = ({
         <Button
           text="Reservar"
           className="bg-secondary text-white w-full mt-5"
+          onClick={onSubmit}
         />
       </div>
     </div>

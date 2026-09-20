@@ -26,18 +26,14 @@ it("resgresa un 400 por campos faltantes", async () => {
 });
 
 it("regresa un 400 si la reserva ya existe", async () => {
-  const interesesId = [
-    ...productos.slice(0, 3).map((producto) => producto.id),
-    ...servicios.slice(0, 3).map((servicio) => servicio.id),
-  ];
-
   const fecha = new Date("2026-09-25");
 
   await request(app)
     .post("/api/reservas")
     .send({
       fecha: fecha,
-      interesesId,
+      productosIds: [...productos.slice(0, 3).map((producto) => producto.id)],
+      serviciosIds: [...servicios.slice(0, 3).map((servicio) => servicio.id)],
     })
     .expect(201);
 
@@ -45,24 +41,21 @@ it("regresa un 400 si la reserva ya existe", async () => {
     .post("/api/reservas")
     .send({
       fecha: fecha,
-      interesesId,
+      productosIds: [...productos.slice(0, 3).map((producto) => producto.id)],
+      serviciosIds: [...servicios.slice(0, 3).map((servicio) => servicio.id)],
     })
     .expect(400);
 });
 
 it("regresa un 201 si la reserva se creo", async () => {
-  const interesesId = [
-    ...productos.slice(0, 3).map((producto) => producto.id),
-    ...servicios.slice(0, 3).map((servicio) => servicio.id),
-  ];
-
   const fecha = new Date("2026-09-25");
 
   await request(app)
     .post("/api/reservas")
     .send({
       fecha: fecha,
-      interesesId,
+      productosIds: [...productos.slice(0, 3).map((producto) => producto.id)],
+      serviciosIds: [...servicios.slice(0, 3).map((servicio) => servicio.id)],
     })
     .expect(201);
 });

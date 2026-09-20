@@ -1,34 +1,26 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from "react";
 
-import type { ProductoServicio } from '../../types/ProductoServicio';
+import type { ProductoServicio } from "../../types/ProductoServicio";
 
-import FormularioReserva from './FormularioReserva';
-import ResumenReserva from './ResumenReserva';
+import FormularioReserva from "./FormularioReserva";
+import ResumenReserva from "./ResumenReserva";
 import {
   calcPrecioFinalServicios,
   calcPrecioFinalProductos,
-} from '../../services/calcDescuentos';
-
-const dataProductos = [
-  { id: 1, nombre: 'Producto 1', precio: 100 },
-  { id: 2, nombre: 'Producto 2', precio: 200 },
-  { id: 3, nombre: 'Producto 3', precio: 300 },
-  { id: 4, nombre: 'Producto 4', precio: 400 },
-  { id: 5, nombre: 'Producto 5', precio: 500 },
-];
-
-const dataServicios = [
-  { id: 1, nombre: 'Servicio 1', precio: 150 },
-  { id: 2, nombre: 'Servicio 2', precio: 250 },
-  { id: 3, nombre: 'Servicio 3', precio: 350 },
-];
-
-const dataCalendario = ['01/01/2026', '02/01/2026', '03/01/2026', '04/01/2026'];
-const dataHorarios = ['10:00 AM', '11:00 AM', '12:00 PM', '13:00 PM'];
+} from "../../services/calcDescuentos";
+import useRequest from "../../hooks/use-request";
+import { useNavigate } from "react-router-dom";
 
 const CrearReserva = () => {
-  const [fecha, setFecha] = useState(dataCalendario[0]);
-  const [hora, setHora] = useState(dataHorarios[0]);
+  const navigate = useNavigate();
+
+  const [dataProductos, setDataProductos] = useState<ProductoServicio[]>([]);
+  const [dataServicios, setDataServicios] = useState<ProductoServicio[]>([]);
+  const [dataFechas, setDataFechas] = useState<string[]>([]);
+  const [dataHorarios, setDataHorarios] = useState<string[]>([]);
+
+  const [fecha, setFecha] = useState("");
+  const [hora, setHora] = useState("");
 
   const [productos, setProductos] = useState<ProductoServicio[]>([]);
   const [servicios, setServicios] = useState<ProductoServicio[]>([]);
@@ -45,12 +37,61 @@ const CrearReserva = () => {
 
   const total = totalProductos + totalServicios;
 
+  const { doRequest: doCrearReserva, errors: crearReservaErrors } = useRequest({
+    url: "/api/reservas",
+    method: "post",
+    onSuccess: (data) => {
+      navigate("/reservas");
+    },
+  });
+
+  const {
+    doRequest: doObtenerProductosServicios,
+    errors: obtenerProductosServiciosErrors,
+  } = useRequest({
+    url: "/api/productos-servicios",
+    method: "get",
+    onSuccess: (data) => {
+      setDataProductos(data.productos);
+      setDataServicios(data.servicios);
+    },
+  });
+
+  const { doRequest: doObtenerHorarios, errors: obtenerHorariosErrors } =
+    useRequest({
+      url: "/api/horarios",
+      method: "get",
+      onSuccess: (data) => {
+        setDataFechas(data.fechas);
+        setFecha(data.fechas[0]);
+
+        setDataHorarios(data.horarios);
+        setHora(data.horarios[0]);
+      },
+    });
+
+  useEffect(() => {
+    // Cargar datos de productos y servicios
+    doObtenerProductosServicios();
+
+    // Cargar data de horarios y calendario disponible
+    doObtenerHorarios();
+  }, []);
+
+  const handleCrearReserva = async () => {
+    await doCrearReserva({
+      fecha: `${fecha} ${hora}`,
+      productosIds: [...productos.map((producto) => producto.id)],
+      serviciosIds: [...servicios.map((servicio) => servicio.id)],
+    });
+  };
+
   return (
-    <div className="flex gap-8 px-8 py-4 ">
+    <div className="flex flex-col xl:flex-row gap-8 px-8 py-4 ">
       {/* FORMULARIO DE RESERVA */}
       <FormularioReserva
         dataHorarios={dataHorarios}
-        dataCalendario={dataCalendario}
+        dataFechas={dataFechas}
         dataProductos={dataProductos}
         dataServicios={dataServicios}
         fecha={fecha}
@@ -72,6 +113,7 @@ const CrearReserva = () => {
         totalServicios={totalServicios}
         descuentoServicios={descuentoServicios}
         total={total}
+        onSubmit={handleCrearReserva}
       />
     </div>
   );
