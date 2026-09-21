@@ -13,6 +13,7 @@ router.delete("/api/reservas/:id", async (req: Request, res: Response) => {
       .send({ errors: [{ message: "Reserva no encontrada" }] });
   }
 
+  // Se borra el usuarioId (borrado logico)
   reserva.usuarioId = "";
   await reserva.save();
 
