@@ -1,33 +1,28 @@
 import express, { Request, Response } from "express";
+
 import { Reserva } from "../models/reserva";
 
 import { usuario, productos, servicios } from "../__mocks__/bd";
-import { ProductoServicio } from "../types/ProductoServicio";
 
 const router = express.Router();
 
 router.get("/api/reservas", async (req: Request, res: Response) => {
-  const reservas = await Reserva.find({ usuarioId: usuario.id });
+  // Obtener todas las reservas del usuario
+  const reservas = await Reserva.find({
+    usuarioId: usuario.id,
+  });
 
-  let productosReserva: ProductoServicio[] = [];
-  let serviciosReserva: ProductoServicio[] = [];
-
+  // Agregar productos y servicios correspondientes a cada reserva
   const reservasConDetalles = reservas.map((reserva) => {
-    if (reserva.productosIds) {
-      if (reserva.productosIds.length !== 0) {
-        productosReserva = productos.filter((producto) =>
-          reserva.productosIds.includes(producto.id),
-        );
-      }
-    }
+    // Obtener los productos de ESTA reserva
+    const productosReserva = productos.filter((producto) =>
+      reserva.productosIds.includes(producto.id),
+    );
 
-    if (reserva.serviciosIds) {
-      if (reserva.serviciosIds.length !== 0) {
-        serviciosReserva = servicios.filter((servicio) =>
-          reserva.serviciosIds.includes(servicio.id),
-        );
-      }
-    }
+    // Obtener los servicios de ESTA reserva
+    const serviciosReserva = servicios.filter((servicio) =>
+      reserva.serviciosIds.includes(servicio.id),
+    );
 
     return {
       ...reserva.toObject(),
