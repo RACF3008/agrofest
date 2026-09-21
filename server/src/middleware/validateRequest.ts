@@ -10,7 +10,9 @@ export const validateRequest = (
 
   if (!errors.isEmpty()) {
     return res.status(400).send({
-      errors: errors.array(),
+      errors: errors.array().map((error) => ({
+        message: error.msg,
+      })),
     });
   }
 

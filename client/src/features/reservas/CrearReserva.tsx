@@ -10,6 +10,7 @@ import {
 } from "../../services/calcDescuentos";
 import useRequest from "../../hooks/use-request";
 import { useNavigate } from "react-router-dom";
+import ErrorAlert from "../../ui/ErrorAlert";
 
 const CrearReserva = () => {
   const navigate = useNavigate();
@@ -40,8 +41,9 @@ const CrearReserva = () => {
   const { doRequest: doCrearReserva, errors: crearReservaErrors } = useRequest({
     url: "/api/reservas",
     method: "post",
-    onSuccess: (data) => {
+    onSuccess: () => {
       navigate("/reservas");
+      console.log(crearReservaErrors);
     },
   });
 
@@ -70,6 +72,13 @@ const CrearReserva = () => {
       },
     });
 
+  // Unificar errores
+  const errors = [
+    ...crearReservaErrors,
+    ...obtenerProductosServiciosErrors,
+    ...obtenerHorariosErrors,
+  ];
+
   useEffect(() => {
     // Cargar datos de productos y servicios
     doObtenerProductosServicios();
@@ -85,13 +94,13 @@ const CrearReserva = () => {
       serviciosIds: [...servicios.map((servicio) => servicio.id)],
     };
 
-    console.log(reservaBody);
-
     await doCrearReserva(reservaBody);
   };
 
   return (
     <div className="flex flex-col xl:flex-row gap-8 px-8 py-4 ">
+      <ErrorAlert errors={errors} />
+
       {/* FORMULARIO DE RESERVA */}
       <FormularioReserva
         dataHorarios={dataHorarios}

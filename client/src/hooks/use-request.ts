@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type ErrorResponse = {
   message: string;
@@ -21,10 +21,16 @@ export default function useRequest<T = any>({
 }: UseRequestProps<T>) {
   const [errors, setErrors] = useState<string[]>([]);
 
+  const errorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const doRequest = async (props = {}) => {
     try {
       setErrors([]);
-      const response = await axios[method](url, { ...body, ...props });
+
+      const response = await axios[method](url, {
+        ...body,
+        ...props,
+      });
 
       if (onSuccess) {
         onSuccess(response.data);
@@ -32,16 +38,33 @@ export default function useRequest<T = any>({
 
       return response.data;
     } catch (err: any) {
+      let messages: string[];
+
       if (err.response?.data?.errors) {
-        const messages = err.response.data.errors.map(
-          (e: ErrorResponse) => e.message,
+        messages = err.response.data.errors.map(
+          (error: ErrorResponse) => error.message,
         );
-        setErrors(messages); // <- array of strings
       } else {
-        setErrors(["Something went wrong"]);
+        messages = ["Something went wrong"];
       }
+
+      // Cancelar timer anterior
+      if (errorTimer.current) {
+        clearTimeout(errorTimer.current);
+      }
+
+      // Mostrar nuevos errores
+      setErrors(messages);
+
+      // Ocultarlos después de 4 segundos
+      errorTimer.current = setTimeout(() => {
+        setErrors([]);
+      }, 4000);
     }
   };
 
-  return { doRequest, errors };
+  return {
+    doRequest,
+    errors,
+  };
 }

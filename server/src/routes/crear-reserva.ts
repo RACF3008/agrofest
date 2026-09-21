@@ -40,7 +40,7 @@ router.post(
     if (reservaExistente) {
       return res
         .status(400)
-        .send({ errors: [{ message: "Reserva existente" }] });
+        .send({ errors: [{ message: "Reserva existente en este horario" }] });
     }
 
     const reserva = Reserva.build({
