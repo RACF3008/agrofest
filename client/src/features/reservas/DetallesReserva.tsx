@@ -7,10 +7,12 @@ import DetalleFinanciero from "../productosServicios/DetalleFinanciero";
 import Button from "../../ui/Button";
 import { useEffect, useState } from "react";
 import useRequest from "../../hooks/use-request";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DetallesReserva = () => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [reserva, setReserva] = useState({
     evento: "",
@@ -28,6 +30,14 @@ const DetallesReserva = () => {
     onSuccess: (data) => {
       console.log(data);
       setReserva(data);
+    },
+  });
+
+  const { doRequest: doCancelarReserva } = useRequest({
+    url: `/api/reservas/${id}`,
+    method: "delete",
+    onSuccess: () => {
+      navigate("/reservas");
     },
   });
 
@@ -56,7 +66,7 @@ const DetallesReserva = () => {
         <h3 className="font-bold text-xl mb-2">Información del evento</h3>
 
         {/* CONTENEDOR */}
-        <div className="grid grid-cols-3">
+        <div className="flex flex-col gap-2 md:grid md:grid-cols-3">
           {/* NOMBRE EVENTO */}
           <div className="flex items-center gap-2 mb-2">
             <ConfirmationNumberIcon
@@ -105,9 +115,9 @@ const DetallesReserva = () => {
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex xl:flex-row flex-col gap-4">
         {/* DETALLE DE PRODUCTOS Y SERVICIOS */}
-        <div className="grid grid-cols-2 gap-4 w-2/3">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-4 w-full xl:w-2/3">
           <DetalleProductosServicios
             title="Productos"
             productosServicios={reserva.productos}
@@ -119,7 +129,7 @@ const DetallesReserva = () => {
           />
         </div>
 
-        <div className="flex flex-col w-1/3 gap-4">
+        <div className="flex flex-col w-full xl:w-1/3 gap-4">
           {/* Detalle financiero */}
           <DetalleFinanciero
             productos={reserva.productos}
@@ -130,6 +140,7 @@ const DetallesReserva = () => {
           <Button
             text="Cancelar Reserva"
             className="border-2 border-danger hover:text-white hover:bg-danger"
+            onClick={() => doCancelarReserva()}
           />
         </div>
       </div>

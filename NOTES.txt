@@ -9,3 +9,9 @@ Servicios
 1. Análisis de suelo
 2. Análisis foliar
 3. Análisis de agua de riego
+
+CONTEXTOS
+LOCAL
+1. kubectl config use-context docker-desktop
+DIGITALOCEAN
+2. kubectl config use-context agrofest
