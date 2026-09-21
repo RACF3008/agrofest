@@ -29,24 +29,35 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
 
   // Calcular precio original y final
   useEffect(() => {
-    console.log(reserva);
-    // Se obtiene el descuento y precio final productos
-    const [finalProductos, descuentoProductos] = calcPrecioFinalProductos(
-      reserva.productos,
+    console.log("RESERVA:", reserva);
+    console.log("PRODUCTOS:", reserva.productos);
+    console.log("SERVICIOS:", reserva.servicios);
+
+    const [finalProductos] = calcPrecioFinalProductos(reserva.productos ?? []);
+
+    const [finalServicios] = calcPrecioFinalServicios(reserva.servicios ?? []);
+
+    const originalProductos = (reserva.productos ?? []).reduce(
+      (total: number, producto: any) => total + producto.precio,
+      0,
     );
 
-    // Se obtiene el descuento y precio final servicios
-    const [finalServicios, descuentoServicios] = calcPrecioFinalServicios(
-      reserva.servicios,
+    const originalServicios = (reserva.servicios ?? []).reduce(
+      (total: number, servicio: any) => total + servicio.precio,
+      0,
     );
 
-    // Calcular y setear precio original
-    setPrecioOriginal(
-      finalProductos / (1 - descuentoProductos) +
-        finalServicios / (1 - descuentoServicios),
-    );
+    console.log("ORIGINAL PRODUCTOS:", originalProductos);
+    console.log("ORIGINAL SERVICIOS:", originalServicios);
 
-    // Calcular y setear precio final
+    console.log("FINAL PRODUCTOS:", finalProductos);
+    console.log("FINAL SERVICIOS:", finalServicios);
+
+    console.log("PRECIO ORIGINAL:", originalProductos + originalServicios);
+
+    console.log("PRECIO FINAL:", finalProductos + finalServicios);
+
+    setPrecioOriginal(originalProductos + originalServicios);
     setPrecioFinal(finalProductos + finalServicios);
   }, [reserva]);
 
