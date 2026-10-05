@@ -1,30 +1,20 @@
-import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from 'mongoose';
 
 jest.setTimeout(60000);
 
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
-  process.env.JWT_KEY = "testkey";
-
-  console.log("1. Iniciando MongoMemoryServer...");
+  process.env.JWT_KEY = 'testkey';
 
   mongo = await MongoMemoryServer.create();
 
-  console.log("2. MongoMemoryServer creado");
-
   const mongoUri = mongo.getUri();
 
-  console.log("3. URI:", mongoUri);
-
-  console.log("4. Conectando Mongoose...");
-
   await mongoose.connect(mongoUri, {
-    dbName: "agrofest-test",
+    dbName: 'agrofest-test',
   });
-
-  console.log("5. Mongoose conectado");
 });
 
 beforeEach(async () => {
