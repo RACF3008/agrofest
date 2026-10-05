@@ -1,17 +1,17 @@
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
-import Button from "../../ui/Button";
+import Button from '../../ui/Button';
 import {
   calcPrecioFinalProductos,
   calcPrecioFinalServicios,
-} from "../../services/calcDescuentos";
-import { useEffect, useState } from "react";
-import { formatCurrency } from "../../services/currency";
-import useRequest from "../../hooks/use-request";
-import { useNavigate } from "react-router-dom";
+} from '../../services/calcDescuentos';
+import { useEffect, useState } from 'react';
+import { formatCurrency } from '../../services/currency';
+import useRequest from '../../hooks/use-request';
+import { useNavigate } from 'react-router-dom';
 
 const TarjetaReserva = ({ reserva, onCancel }: any) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
 
   const { doRequest: doCancelarReserva } = useRequest({
     url: `/api/reservas/${reserva._id}`,
-    method: "delete",
+    method: 'delete',
 
     onSuccess: () => {
       onCancel();
@@ -29,10 +29,6 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
 
   // Calcular precio original y final
   useEffect(() => {
-    console.log("RESERVA:", reserva);
-    console.log("PRODUCTOS:", reserva.productos);
-    console.log("SERVICIOS:", reserva.servicios);
-
     const [finalProductos] = calcPrecioFinalProductos(reserva.productos ?? []);
 
     const [finalServicios] = calcPrecioFinalServicios(reserva.servicios ?? []);
@@ -47,16 +43,6 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
       0,
     );
 
-    console.log("ORIGINAL PRODUCTOS:", originalProductos);
-    console.log("ORIGINAL SERVICIOS:", originalServicios);
-
-    console.log("FINAL PRODUCTOS:", finalProductos);
-    console.log("FINAL SERVICIOS:", finalServicios);
-
-    console.log("PRECIO ORIGINAL:", originalProductos + originalServicios);
-
-    console.log("PRECIO FINAL:", finalProductos + finalServicios);
-
     setPrecioOriginal(originalProductos + originalServicios);
     setPrecioFinal(finalProductos + finalServicios);
   }, [reserva]);
@@ -67,7 +53,7 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
       <div className="flex items-center gap-2 mb-4">
         <CalendarTodayIcon
           className="text-secondary"
-          sx={{ fontSize: "2rem" }}
+          sx={{ fontSize: '2rem' }}
         />
         <h2 className="text-xl font-bold">{reserva.evento}</h2>
       </div>
@@ -77,7 +63,7 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
         <div>
           <p className="font-semibold text-sm">Fecha</p>
           <p className="text-lg">
-            {new Date(reserva.fecha).toLocaleDateString("es-GT")}
+            {new Date(reserva.fecha).toLocaleDateString('es-GT')}
           </p>
         </div>
       </div>
@@ -88,8 +74,10 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
         <div>
           <p className="font-semibold text-sm">Hora</p>
           <p className="text-lg">
-            {reserva.fecha.split("T")[1].slice(0, 5)}{" "}
-            {reserva.hora > 12 ? "pm" : "am"}
+            {reserva.fecha.split('T')[1]?.slice(0, 5)}{' '}
+            {Number(reserva.fecha.split('T')[1]?.slice(0, 2)) >= 12
+              ? 'pm'
+              : 'am'}
           </p>
         </div>
       </div>
