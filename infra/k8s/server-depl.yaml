@@ -15,13 +15,14 @@ spec:
       containers:
         - name: server
           image: racf3008/agrofest-server
+          imagePullPolicy: IfNotPresent
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
             - name: MONGO_URI
-              value: "mongodb://agrofest-server-mongo-srv:27017/server"
+              value: 'mongodb://agrofest-server-mongo-srv:27017/server'
 ---
 apiVersion: v1
 kind: Service

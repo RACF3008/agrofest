@@ -15,6 +15,7 @@ spec:
       containers:
         - name: client
           image: racf3008/agrofest-client
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5173
 ---
