@@ -74,8 +74,10 @@ const TarjetaReserva = ({ reserva, onCancel }: any) => {
         <div>
           <p className="font-semibold text-sm">Hora</p>
           <p className="text-lg">
-            {reserva.fecha.split('T')[1].slice(0, 5)}{' '}
-            {reserva.hora > 12 ? 'pm' : 'am'}
+            {reserva.fecha.split('T')[1]?.slice(0, 5)}{' '}
+            {Number(reserva.fecha.split('T')[1]?.slice(0, 2)) >= 12
+              ? 'pm'
+              : 'am'}
           </p>
         </div>
       </div>
